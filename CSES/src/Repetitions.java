@@ -1,9 +1,7 @@
 import java.io.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
-class Repetitions
+public class Repetitions
 {
     static class Reader
     {
@@ -25,15 +23,8 @@ class Repetitions
         }
         public String readLine() throws IOException
         {
-            byte[] buf = new byte[64]; // line length 
-            int cnt = 0, c;
-            while ((c = read()) != -1)
-            {
-                if (c == '\n')
-                    break;
-                buf[cnt++] = (byte) c;
-            }
-            return new String(buf, 0, cnt);
+            Scanner scanner = new Scanner(System.in);
+            return scanner.next();
         }
         public int nextInt() throws IOException
         {
@@ -116,24 +107,24 @@ class Repetitions
     static BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
     public static void main(String args[])throws IOException
     {
-        HashMap<Character, Integer> freqMap = new HashMap<>();
+        String s = inputString();
 
-        String input = inputString();
-        char[] arr = input.toCharArray();
-        for(int i = 0; i<arr.length; i++){
-            if(freqMap.containsKey(arr[i]))
-                freqMap.put(arr[i], freqMap.get(arr[i]) + 1);
-            else
-                freqMap.put(arr[i], 1);
-        }
+        char[] arr = s.toCharArray();
+        int n = arr.length;
 
-        int result = 0;
+        int result = 1;
 
-        for(char c: freqMap.keySet()){
-            result = Math.max(result, freqMap.get(c));
+        for(int i=0; i<n-1; i++){
+            int j=i+1;
+            while(j<n && arr[j] == arr[i]){
+                result = Math.max(result, j-i+1);
+                j++;
+            }
+            i=j-1;
         }
 
         System.out.println(result);
+
     }
     public static int inputInt()throws IOException
     {
@@ -161,10 +152,6 @@ class Repetitions
     }
     public static void println(String a)throws IOException
     {
-        System.out.println(a+"\n");
-    }
-
-    public static void println(int a){
-        System.out.println(a);
+        bw.write(a+"\n");
     }
 }
